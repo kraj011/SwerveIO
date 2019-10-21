@@ -17,14 +17,16 @@ public abstract class SwerveDrive extends Subsystem {
      * swerve drive. For internal use only, this can be used to pull
      * specific modules, and also iterate over all the modules.
      */
-    protected HashMap<SwerveModule, AbstractSwerveModule> moduleMap = new HashMap<SwerveModule, AbstractSwerveModule>();
+    protected final HashMap<SwerveModule, AbstractSwerveModule> moduleMap = new HashMap<SwerveModule, AbstractSwerveModule>();
     
     /**
      * A calculator is provided by default so that calculations can be
      * easily retrieved. If invalid base dimensions are provide, the
      * default of a 1:1 base is used.
      */
-    protected SwerveDriveCalculator calc;
+    protected final SwerveDriveCalculator calc;
+
+    protected double countsPerPivotRevolution = 360;
 
     /**
      * Create the swerve drive with the base dimensions and the modules.
@@ -85,7 +87,26 @@ public abstract class SwerveDrive extends Subsystem {
      * @throws SwerveImplementationException If there is an error with the implementation of 
      * any swerve module.
      */
-    public abstract void drive(double fwd, double str, double rcw, double gyroAngle) throws SwerveImplementationException;
+    public void drive(double fwd, double str, double rcw, double gyroAngle) throws SwerveImplementationException {
+        for (SwerveModule module : moduleMap.keySet()) {
+            if (module != null) {
+                double speed = calc.getWheelSpeed(module, fwd, str, rcw);
+                double targetAngle = calc.getWheelAngle(module, fwd, str, rcw, gyroAngle);
+
+                AbstractSwerveModule swerveModule = moduleMap.get(module);
+                double currentPos = swerveModule.getPivotMotorEncoder();
+                double targetPos = SwerveDriveCalculator.convertFromDegrees(targetAngle, countsPerPivotRevolution);
+                double distance = (targetPos - (currentPos % countsPerPivotRevolution));
+                if (distance > (countsPerPivotRevolution / 2.0) || distance < -(countsPerPivotRevolution / 2.0)) {
+                    distance = countsPerPivotRevolution - Math.abs(distance);
+                }
+                double pivotRef = currentPos + distance;
+
+                swerveModule.setPivotReference(pivotRef);
+                swerveModule.setDriveMotorSpeed(speed);
+            }
+        }
+    }
 
     /**
      * Stop all the modules, stopping this swerve drive.
