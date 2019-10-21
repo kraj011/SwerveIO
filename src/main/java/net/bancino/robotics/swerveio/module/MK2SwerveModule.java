@@ -1,13 +1,12 @@
 package net.bancino.robotics.swerveio.module;
 
-import com.revrobotics.CANPIDController;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
-import com.revrobotics.ControlType;
 
 import edu.wpi.first.wpilibj.AnalogInput;
 import net.bancino.robotics.swerveio.SwerveImplementationException;
+import net.bancino.robotics.swerveio.pid.MiniPID;
 
 /**
  * A swerve module implementation that uses RevRobotics Neo
@@ -18,7 +17,7 @@ import net.bancino.robotics.swerveio.SwerveImplementationException;
 public class MK2SwerveModule implements MultiEncoderModule {
     private CANSparkMax driveMotor, pivotMotor;
 
-    private CANPIDController pivotPid;
+    private MiniPID pivotPid;
     private AnalogInput pivotEncoder;
     private double analogEncoderOffset = 0;
     private EncoderSetting useEncoder = EncoderSetting.ANALOG;
@@ -42,8 +41,8 @@ public class MK2SwerveModule implements MultiEncoderModule {
 
         pivotMotor.setIdleMode(IdleMode.kCoast);
 
-        pivotPid = pivotMotor.getPIDController();
-        pivotPid.setOutputRange(-1, 1);
+        pivotPid = new MiniPID(0, 0, 0);
+        pivotPid.setOutputLimits(-1, 1);
     }
 
     @Override
@@ -114,7 +113,7 @@ public class MK2SwerveModule implements MultiEncoderModule {
 
     @Override
     public void setPivotReference(double ref) {
-        pivotPid.setReference(ref, ControlType.kPosition);
+        setPivotMotorSpeed(pivotPid.getOutput(getPivotMotorEncoder(), ref));
     }
 
     @Override
@@ -174,7 +173,7 @@ public class MK2SwerveModule implements MultiEncoderModule {
 
     @Override
     public void setPivotPidIZone(double iZone) {
-        pivotPid.setIZone(iZone);
+        throw new SwerveImplementationException("MK2 Swerve Module: Pivot motor PID does not implement IZone parameters.");
     }
 
     @Override
@@ -184,7 +183,7 @@ public class MK2SwerveModule implements MultiEncoderModule {
 
     @Override
     public void setPivotPidFF(double gain) {
-        pivotPid.setFF(gain);
+        pivotPid.setF(gain);
     }
 
     @Override
