@@ -88,20 +88,38 @@ public abstract class SwerveDrive extends Subsystem {
      * any swerve module.
      */
     public void drive(double fwd, double str, double rcw, double gyroAngle) throws SwerveImplementationException {
+        /**
+         * This default implementation has been tested using MK2 modules and works really well for both
+         * the internal encoders and the analog encoders.
+         * 
+         * Iterate over the modules.
+         */
         for (SwerveModule module : moduleMap.keySet()) {
+            /* Make sure a null module isn't operated on. */
             if (module != null) {
+                /* Use the swerve drive calculator to calculate target speeds and angles. */
                 double speed = calc.getWheelSpeed(module, fwd, str, rcw);
                 double targetAngle = calc.getWheelAngle(module, fwd, str, rcw, gyroAngle);
 
+                /* Get a reference to the module to get feedback from it. */
                 AbstractSwerveModule swerveModule = moduleMap.get(module);
                 double currentPos = swerveModule.getPivotMotorEncoder();
+
+                /* Convert the target angle into a target position on the pivot encoder. */
                 double targetPos = SwerveDriveCalculator.convertFromDegrees(targetAngle, countsPerPivotRevolution);
+                /* Calculate the distance between the current position and the pivot target. */
                 double distance = (targetPos - (currentPos % countsPerPivotRevolution));
+                /*
+                 * If the distance between the target and the current position is longer than half a 
+                 * revolution, pivot the other way for efficiency. 
+                 */
                 if (distance > (countsPerPivotRevolution / 2.0) || distance < -(countsPerPivotRevolution / 2.0)) {
                     distance = countsPerPivotRevolution - Math.abs(distance);
                 }
+                /* Calculate the output pivot reference. */
                 double pivotRef = currentPos + distance;
 
+                /* Feed the pivot reference and drive motor speed to the module. */
                 swerveModule.setPivotReference(pivotRef);
                 swerveModule.setDriveMotorSpeed(speed);
             }
@@ -115,6 +133,11 @@ public abstract class SwerveDrive extends Subsystem {
      * @param rcw The Z value
      */
     public void drive(double fwd, double str, double rcw) {
+        /*
+         * Sending a gyro angle of 0 all the time forces the
+         * bot to always think it is going forward, thus putting
+         * it into an effective bot-centric drive mode.
+         */
         drive(fwd, str, rcw, 0);
     }
 
