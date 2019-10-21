@@ -49,7 +49,6 @@ public class MK2SwerveModule implements MultiEncoderModule {
     @Override
     public void setPivotMotorSpeed(double speed) {
         if (!setPivotIdleMode) {
-            zeroPivotEncoder();
             pivotMotor.setIdleMode(IdleMode.kBrake);
             setPivotIdleMode = true;
         }
