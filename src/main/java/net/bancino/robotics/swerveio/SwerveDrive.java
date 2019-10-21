@@ -80,8 +80,8 @@ public abstract class SwerveDrive extends Subsystem {
     /**
      * A drive function that should be implemented to drive the robot
      * with the joystick.
-     * @param fwd The X value
-     * @param str The Y value
+     * @param fwd The Y value
+     * @param str The X value
      * @param rcw The Z value
      * @param gyroAngle The angle of the gyro, used for field centric navigation.
      * @throws SwerveImplementationException If there is an error with the implementation of 
@@ -106,6 +106,16 @@ public abstract class SwerveDrive extends Subsystem {
                 swerveModule.setDriveMotorSpeed(speed);
             }
         }
+    }
+
+    /**
+     * Drive in robot-centric navigation mode.
+     * @param fwd The Y value
+     * @param str The X value
+     * @param rcw The Z value
+     */
+    public void drive(double fwd, double str, double rcw) {
+        drive(fwd, str, rcw, 0);
     }
 
     /**
