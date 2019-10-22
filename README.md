@@ -101,9 +101,11 @@ public class DriveWithJoystick extends Command {
      * Drive the drivetrain using the axes from the joystick and the gyro
      * angle.
      * 
-     * You'll obviously need to declare the driveTrain variable somewhere.
+     * You'll obviously need to declare an instance of the swerve drive somewhere, then call
+     * this function on it:
+     * 
+     * drive(y, x, z, gyroAngle);
      */
-    driveTrain.drive(y, x, z, gyroAngle);
   }
 
   /**
@@ -121,7 +123,7 @@ public class DriveWithJoystick extends Command {
    */
   @Override
   protected void end() {
-    Subsystems.driveTrain.stop();
+    /* Stop the drivetrain here. */
   }
 
   @Override
