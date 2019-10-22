@@ -26,12 +26,12 @@ public abstract class SwerveDrive extends Subsystem {
      */
     protected final SwerveDriveCalculator calc;
 
-    protected double countsPerPivotRevolution = 360;
+    protected final double countsPerPivotRevolution;
 
     /**
      * Create the swerve drive with the base dimensions and the modules.
      */
-    public SwerveDrive(double baseWidth, double baseLength, AbstractSwerveModule frontLeftModule, AbstractSwerveModule frontRightModule, AbstractSwerveModule rearLeftModule, AbstractSwerveModule rearRightModule) {
+    public SwerveDrive(double baseWidth, double baseLength, double countsPerPivotRevolution, AbstractSwerveModule frontLeftModule, AbstractSwerveModule frontRightModule, AbstractSwerveModule rearLeftModule, AbstractSwerveModule rearRightModule) {
         StringBuilder nullModule = new StringBuilder("The following modules are null: [");
         boolean haveNullModule = false;
         if (frontRightModule == null) {
@@ -63,6 +63,7 @@ public abstract class SwerveDrive extends Subsystem {
             } else {
                 this.calc = new SwerveDriveCalculator(baseWidth, baseLength);
             }
+            this.countsPerPivotRevolution = countsPerPivotRevolution;
         }
     }
 
@@ -73,8 +74,8 @@ public abstract class SwerveDrive extends Subsystem {
      * @param baseLength The length of the base
      * @param moduleMap A raw module map
      */
-    public SwerveDrive(double baseWidth, double baseLength, HashMap<SwerveModule, AbstractSwerveModule> moduleMap) {
-        this(baseWidth, baseLength, moduleMap.get(SwerveModule.FRONT_LEFT), moduleMap.get(SwerveModule.FRONT_RIGHT), moduleMap.get(SwerveModule.REAR_LEFT), moduleMap.get(SwerveModule.REAR_RIGHT));
+    public SwerveDrive(double baseWidth, double baseLength, double countsPerPivotRevolution, HashMap<SwerveModule, AbstractSwerveModule> moduleMap) {
+        this(baseWidth, baseLength, countsPerPivotRevolution, moduleMap.get(SwerveModule.FRONT_LEFT), moduleMap.get(SwerveModule.FRONT_RIGHT), moduleMap.get(SwerveModule.REAR_LEFT), moduleMap.get(SwerveModule.REAR_RIGHT));
     }
 
     /**
