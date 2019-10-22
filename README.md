@@ -31,6 +31,8 @@ compile('net.bancino.robotics:SwerveIO') {
     }
 ```
 This is, of course, temporary, and should only be used for developement. When we start the 2020 season, we should hopefully have this published so you can use it as a normal binary dependency.
+
+
 ----
 
 This library provides a `SwerveDrive` class that extends WPILib's `Subsystem` class. You'll want your drivetrain subsystem to extend `SwerveDrive` which will then automatically inherit `Subsystem`. For our code, we generally follow this format:
