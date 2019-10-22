@@ -31,7 +31,7 @@ public abstract class SwerveDrive extends Subsystem {
     /**
      * Create the swerve drive with the base dimensions and the modules.
      */
-    public SwerveDrive(double baseWidth, double baseLength, double countsPerPivotRevolution, AbstractSwerveModule frontLeftModule, AbstractSwerveModule frontRightModule, AbstractSwerveModule rearLeftModule, AbstractSwerveModule rearRightModule) {
+    public SwerveDrive(double baseWidth, double baseLength, double countsPerPivotRevolution, AbstractSwerveModule frontLeftModule, AbstractSwerveModule frontRightModule, AbstractSwerveModule rearLeftModule, AbstractSwerveModule rearRightModule, ModuleModifier modifier) {
         StringBuilder nullModule = new StringBuilder("The following modules are null: [");
         boolean haveNullModule = false;
         if (frontRightModule == null) {
@@ -58,6 +58,9 @@ public abstract class SwerveDrive extends Subsystem {
             moduleMap.put(SwerveModule.FRONT_RIGHT, frontRightModule);
             moduleMap.put(SwerveModule.REAR_LEFT, rearLeftModule);
             moduleMap.put(SwerveModule.REAR_RIGHT, rearRightModule);
+            for (var module : moduleMap.values()) {
+                modifier.modify(module);
+            }
             if (baseWidth <= 0 || baseLength <= 0) {
                 this.calc = new SwerveDriveCalculator();
             } else {
@@ -74,8 +77,8 @@ public abstract class SwerveDrive extends Subsystem {
      * @param baseLength The length of the base
      * @param moduleMap A raw module map
      */
-    public SwerveDrive(double baseWidth, double baseLength, double countsPerPivotRevolution, HashMap<SwerveModule, AbstractSwerveModule> moduleMap) {
-        this(baseWidth, baseLength, countsPerPivotRevolution, moduleMap.get(SwerveModule.FRONT_LEFT), moduleMap.get(SwerveModule.FRONT_RIGHT), moduleMap.get(SwerveModule.REAR_LEFT), moduleMap.get(SwerveModule.REAR_RIGHT));
+    public SwerveDrive(double baseWidth, double baseLength, double countsPerPivotRevolution, HashMap<SwerveModule, AbstractSwerveModule> moduleMap, ModuleModifier modifier) {
+        this(baseWidth, baseLength, countsPerPivotRevolution, moduleMap.get(SwerveModule.FRONT_LEFT), moduleMap.get(SwerveModule.FRONT_RIGHT), moduleMap.get(SwerveModule.REAR_LEFT), moduleMap.get(SwerveModule.REAR_RIGHT), modifier);
     }
 
     /**

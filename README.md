@@ -30,33 +30,25 @@ public class DriveTrain extends SwerveDrive {
    */
   public DriveTrain() {
     /* Create the modules and pass them to the superclass constructor along with the base dimensions. */
-    super(/* Base width: */ 20, /* Base length: */ 22,
+    super(/* Base width: */ 20, /* Base length: */ 22, /* Counts per pivot revolution: */ 360,
       new MK2SwerveModule(RobotMap.FRONT_LEFT_DRIVE_MOTOR, RobotMap.FRONT_LEFT_PIVOT_MOTOR, RobotMap.FRONT_LEFT_ANALOG_ENCODER),
       new MK2SwerveModule(RobotMap.FRONT_RIGHT_DRIVE_MOTOR, RobotMap.FRONT_RIGHT_PIVOT_MOTOR, RobotMap.FRONT_RIGHT_ANALOG_ENCODER),
       new MK2SwerveModule(RobotMap.REAR_LEFT_DRIVE_MOTOR, RobotMap.REAR_LEFT_PIVOT_MOTOR, RobotMap.REAR_LEFT_ANALOG_ENCODER),
-      new MK2SwerveModule(RobotMap.REAR_RIGHT_DRIVE_MOTOR, RobotMap.REAR_RIGHT_PIVOT_MOTOR, RobotMap.REAR_RIGHT_ANALOG_ENCODER)
+      new MK2SwerveModule(RobotMap.REAR_RIGHT_DRIVE_MOTOR, RobotMap.REAR_RIGHT_PIVOT_MOTOR, RobotMap.REAR_RIGHT_ANALOG_ENCODER),
+      (module) -> {
+        /**
+         * Here we set the module's settings. Set them for each module.
+         * moduleMap is inherited from SwerveDrive and populated by
+         * the superclass constructor.
+         */
+        module.setPivotClosedLoopRampRate(0);
+        module.setPivotPidP(0.1);
+        module.setPivotPidI(1e-4);
+        module.setPivotPidD(1);
+        module.setPivotPidIZone(0);
+        module.setPivotPidFF(0);
+      }
     );
-    /* 
-     * This variable is inherited from SwerveDrive and is used in the default
-     * drive() implementation, setting it will allow us to not write our own
-     * drive() function, but you can write it if you want.
-     */
-    countsPerPivotRevolution = 17.90471839904785;
-    /**
-     * Here we set the module's settings. Set them for each module.
-     * moduleMap is inherited from SwerveDrive and populated by
-     * the superclass constructor.
-     */
-    for (var modKey : moduleMap.keySet()) {
-      MultiEncoderModule module = (MultiEncoderModule) moduleMap.get(modKey);
-
-      module.setPivotClosedLoopRampRate(0);
-      module.setPivotPidP(0.1);
-      module.setPivotPidI(1e-4);
-      module.setPivotPidD(1);
-      module.setPivotPidIZone(0);
-      module.setPivotPidFF(0);
-    }
   }
 
   @Override
