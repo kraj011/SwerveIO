@@ -1,14 +1,38 @@
 # SwerveIO
 Pronounced "Swerve - ee - oh" (rhymes with oreo, we decided to keep this mis-pronunciation by one of our members because we thought it was funny and different), **SwerveIO** is another swerve drive library written in Java by Team 6090, just to see if we could.
 
+**Notice**: This library is under *heavy* developement and is nowhere near ready for actual use. Often, there are lots of breaking API changes. Additionally, this library is not published to any repositories other than this one, so you'll need to include it as a source dependency in gradle, or compile the JAR yourself to actually use it. This notice will be updated when SwerveIO is ready for production, and instructions will be provided on the best way to include it in your project.
+
 ## Features
-- **Extendable**: A collection of interfaces allow the use of any motor controllers and encoders, with the option to use a combination of motor controllers and encoders.
-- **Sensible Defaults**: SwerveIO provides built-in swerve module implementations for popular configurations, including REVRobotics Spark Max, and CTRE Talon motor controllers.
-- **Java**: Written in Java by Java developers, SwerveIO takes advantage of the Java language and follows all the conventions of Java libraries.
-- **Open**: All the methods used in this library are open and can be used independently if desired, such as `SwerveDriveCalculator`. 
+- **Expandable**: A collection of interfaces allow the use of any motor controllers and encoders, with the option to use a combination of motor controllers and encoders.
+- **Sensible Defaults**: SwerveIO provides built-in swerve module implementations for popular configurations, including REVRobotics Spark Max, and CTRE Talon motor controllers. If Team 6090 has experience with it, we will have an implementation for you. You're also more than welcome to add your own module implementations to our library via Github pull requests! Please make sure that you don't add custom modules, but if it's a kit, by all means, we want it!
+- **Java**: Written in Java by Java developers, SwerveIO takes advantage of the Java language and follows all the conventions of Java libraries. This makes for seamless integration with your Java robotics projects.
+- **Open**: All the classes used in this library are open and can be used independently if desired, such as `SwerveDriveCalculator` or the PID loop calculator (`MiniPID`).
 - **Simple**: All the hard work is done beneath the abstraction layer of this library, all you need to do is pass encoders and motors in the form of modules to the library.
 
 ## Basic Usage
+To include SwerveIO in your robot project, add this to your `settings.gradle`:
+
+```groovy
+sourceControl {
+    gitRepository("https://github.com/Team6090/SwerveIO") {
+        producesModule("net.bancino.robotics:SwerveIO")
+    }
+}
+```
+
+Then, add the dependency in `build.gradle`:
+
+```groovy
+compile('net.bancino.robotics:SwerveIO') {
+        version {
+            branch = 'master'
+        }
+    }
+```
+This is, of course, temporary, and should only be used for developement. When we start the 2020 season, we should hopefully have this published so you can use it as a normal binary dependency.
+----
+
 This library provides a `SwerveDrive` class that extends WPILib's `Subsystem` class. You'll want your drivetrain subsystem to extend `SwerveDrive` which will then automatically inherit `Subsystem`. For our code, we generally follow this format:
 
 ```java
@@ -55,9 +79,9 @@ public class DriveTrain extends SwerveDrive {
   }
 }
 ```
-This creates all the modules and passes them to the superclass, which has a default implementation of the `drive()` function responsible for handing everything. To drive this swerve drive, just pass the joysticks Y, X and Z values in for `drive()`s FWD, STR, and RCW parameters respectively. This is of course very bare-bones, but this will get the job done. Optionally pass a gyro angle in as the fourth parameter for field centric navigation.
+This creates all the modules and passes them to the superclass, which has a default implementation of the `drive()` function responsible for handing everything. To drive this swerve drive, just pass the joysticks Y, X and Z values in for `drive()`s FWD, STR, and RCW parameters respectively. This is of course very bare-bones, but this will get the job done. Optionally pass a gyro angle in as the fourth parameter for field centric navigation. See how to do all of this in the next code block below.
 
-If your swerve module does not have a default implementation, just write one that implements the `AbstractSwerveModule` interface. 
+If your swerve module does not have a default implementation, just write one that implements the `AbstractSwerveModule` interface. See the `MK2SwerveModule` class for inspiration.
 
 As you can see, to create a fully functioning swerve drive subsystem, you just need to extend the `SwerveDrive` class, and know these values:
 - The base width
