@@ -15,13 +15,9 @@ This library provides a `SwerveDrive` class that extends WPILib's `Subsystem` cl
 package frc.robot.subsystems;
 
 import frc.robot.RobotMap;
-import frc.robot.commands.joystick.DriveWithJoystick;
+import frc.robot.commands.DriveWithJoystick;
 import net.bancino.robotics.swerveio.SwerveDrive;
-import net.bancino.robotics.swerveio.SwerveModule;
-import net.bancino.robotics.swerveio.module.AbstractSwerveModule;
 import net.bancino.robotics.swerveio.module.MK2SwerveModule;
-import net.bancino.robotics.swerveio.module.MultiEncoderModule;
-import net.bancino.robotics.swerveio.module.MultiEncoderModule.EncoderSetting;
 
 public class DriveTrain extends SwerveDrive {
   /**
@@ -37,9 +33,8 @@ public class DriveTrain extends SwerveDrive {
       new MK2SwerveModule(RobotMap.REAR_RIGHT_DRIVE_MOTOR, RobotMap.REAR_RIGHT_PIVOT_MOTOR, RobotMap.REAR_RIGHT_ANALOG_ENCODER),
       (module) -> {
         /**
-         * Here we set the module's settings. Set them for each module.
-         * moduleMap is inherited from SwerveDrive and populated by
-         * the superclass constructor.
+         * Here we set the module's settings. Everything
+         * in this block is run automatically on each module.
          */
         module.setPivotClosedLoopRampRate(0);
         module.setPivotPidP(0.1);
@@ -51,12 +46,14 @@ public class DriveTrain extends SwerveDrive {
     );
   }
 
+  /**
+   * Set your startup command here.
+   */
   @Override
   protected void initDefaultCommand() {
     setDefaultCommand(new DriveWithJoystick());
   }
 }
-
 ```
 This creates all the modules and passes them to the superclass, which has a default implementation of the `drive()` function responsible for handing everything. To drive this swerve drive, just pass the joysticks Y, X and Z values in for `drive()`s FWD, STR, and RCW parameters respectively. This is of course very bare-bones, but this will get the job done. Optionally pass a gyro angle in as the fourth parameter for field centric navigation.
 
@@ -66,3 +63,72 @@ As you can see, to create a fully functioning swerve drive subsystem, you just n
 - The base width
 - The base length
 - How many counts on the encoder it takes to go one full revolution. This will usually be done by manually twisting a module and watching the counts.
+
+In the example above, you'll need to implement the `DriveWithJoystick` command sort of like this:
+
+```java
+package frc.robot.commands;
+
+import edu.wpi.first.wpilibj.command.Command;
+import frc.robot.Robot;
+import frc.robot.Subsystems;
+
+public class DriveWithJoystick extends Command {
+  /**
+   * Create the command, requiring the drivetrain to drive
+   * and the gyro to provide field-centric navigation.
+   */
+  public DriveWithJoystick() {
+    /* Use requires() to require both the drivetrain and the gyro 
+     * (if using field-centric navigation) 
+     */
+  }
+
+  @Override
+  protected void initialize() {
+    /*
+     * Perform initializtion here
+     */
+  }
+
+  @Override
+  protected void execute() {
+    double x = 0; /* Get from joystick*/
+    double y = 0; /* Get from joystick*/
+    double z = 0; /* Get from joystick*/
+    double gyroAngle = 0; /* Get from gyro */
+    /**
+     * Drive the drivetrain using the axes from the joystick and the gyro
+     * angle.
+     * 
+     * You'll obviously need to declare the driveTrain variable somewhere.
+     */
+    driveTrain.drive(y, x, z, gyroAngle);
+  }
+
+  /**
+   * Usually you won't end this command on it's own,
+   * it will require an interruption
+   */
+  @Override
+  protected boolean isFinished() {
+    return false;
+  }
+
+  /**
+   * Stop moving when the joystick is no longer in control.
+   * Generally, autonomous commands will take over from here.
+   */
+  @Override
+  protected void end() {
+    Subsystems.driveTrain.stop();
+  }
+
+  @Override
+  protected void interrupted() {
+    end();
+  }
+}
+
+```
+Obviously you'll need to modify the above command structure a little bit, but this is basically how to implement a fully functioning swerve drive using SwerveIO.
