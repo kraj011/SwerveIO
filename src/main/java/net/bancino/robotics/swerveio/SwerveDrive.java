@@ -58,8 +58,10 @@ public abstract class SwerveDrive extends Subsystem {
             moduleMap.put(SwerveModule.FRONT_RIGHT, frontRightModule);
             moduleMap.put(SwerveModule.REAR_LEFT, rearLeftModule);
             moduleMap.put(SwerveModule.REAR_RIGHT, rearRightModule);
-            for (var module : moduleMap.values()) {
-                modifier.modify(module);
+            if (modifier != null) {
+                for (var module : moduleMap.values()) {
+                    modifier.modify(module);
+                }
             }
             if (baseWidth <= 0 || baseLength <= 0) {
                 this.calc = new SwerveDriveCalculator();
