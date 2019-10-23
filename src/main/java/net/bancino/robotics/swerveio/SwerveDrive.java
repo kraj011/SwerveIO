@@ -6,23 +6,24 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 import net.bancino.robotics.swerveio.module.AbstractSwerveModule;
 
 /**
- * A class designed to be extended extended and used as a WPILib
- * subsystem. This takes care of consolidating swerve modules
- * so they can be driven as a system easily.
+ * A class designed to be extended extended and used as a WPILib subsystem. This
+ * takes care of consolidating swerve modules so they can be driven as a system
+ * easily.
+ * 
  * @author Jordan Bancino
  */
 public abstract class SwerveDrive extends Subsystem {
     /**
-     * A module map that contains all the swerve modules in this
-     * swerve drive. For internal use only, this can be used to pull
-     * specific modules, and also iterate over all the modules.
+     * A module map that contains all the swerve modules in this swerve drive. For
+     * internal use only, this can be used to pull specific modules, and also
+     * iterate over all the modules.
      */
     protected final HashMap<SwerveModule, AbstractSwerveModule> moduleMap = new HashMap<SwerveModule, AbstractSwerveModule>();
-    
+
     /**
-     * A calculator is provided by default so that calculations can be
-     * easily retrieved. If invalid base dimensions are provide, the
-     * default of a 1:1 base is used.
+     * A calculator is provided by default so that calculations can be easily
+     * retrieved. If invalid base dimensions are provide, the default of a 1:1 base
+     * is used.
      */
     protected final SwerveDriveCalculator calc;
 
@@ -31,7 +32,9 @@ public abstract class SwerveDrive extends Subsystem {
     /**
      * Create the swerve drive with the base dimensions and the modules.
      */
-    public SwerveDrive(double baseWidth, double baseLength, double countsPerPivotRevolution, AbstractSwerveModule frontLeftModule, AbstractSwerveModule frontRightModule, AbstractSwerveModule rearLeftModule, AbstractSwerveModule rearRightModule, ModuleModifier modifier) {
+    public SwerveDrive(double baseWidth, double baseLength, double countsPerPivotRevolution,
+            AbstractSwerveModule frontLeftModule, AbstractSwerveModule frontRightModule,
+            AbstractSwerveModule rearLeftModule, AbstractSwerveModule rearRightModule, ModuleModifier modifier) {
         StringBuilder nullModule = new StringBuilder("The following modules are null: [");
         boolean haveNullModule = false;
         if (frontRightModule == null) {
@@ -75,28 +78,33 @@ public abstract class SwerveDrive extends Subsystem {
     /**
      * A compatibility constructor that allows a raw module map to be passed to the
      * Swerve Drive
-     * @param baseWidth The width of the base
+     * 
+     * @param baseWidth  The width of the base
      * @param baseLength The length of the base
-     * @param moduleMap A raw module map
+     * @param moduleMap  A raw module map
      */
-    public SwerveDrive(double baseWidth, double baseLength, double countsPerPivotRevolution, HashMap<SwerveModule, AbstractSwerveModule> moduleMap, ModuleModifier modifier) {
-        this(baseWidth, baseLength, countsPerPivotRevolution, moduleMap.get(SwerveModule.FRONT_LEFT), moduleMap.get(SwerveModule.FRONT_RIGHT), moduleMap.get(SwerveModule.REAR_LEFT), moduleMap.get(SwerveModule.REAR_RIGHT), modifier);
+    public SwerveDrive(double baseWidth, double baseLength, double countsPerPivotRevolution,
+            HashMap<SwerveModule, AbstractSwerveModule> moduleMap, ModuleModifier modifier) {
+        this(baseWidth, baseLength, countsPerPivotRevolution, moduleMap.get(SwerveModule.FRONT_LEFT),
+                moduleMap.get(SwerveModule.FRONT_RIGHT), moduleMap.get(SwerveModule.REAR_LEFT),
+                moduleMap.get(SwerveModule.REAR_RIGHT), modifier);
     }
 
     /**
-     * A drive function that should be implemented to drive the robot
-     * with the joystick.
-     * @param fwd The Y value
-     * @param str The X value
-     * @param rcw The Z value
+     * A drive function that should be implemented to drive the robot with the
+     * joystick.
+     * 
+     * @param fwd       The Y value
+     * @param str       The X value
+     * @param rcw       The Z value
      * @param gyroAngle The angle of the gyro, used for field centric navigation.
-     * @throws SwerveImplementationException If there is an error with the implementation of 
-     * any swerve module.
+     * @throws SwerveImplementationException If there is an error with the
+     *                                       implementation of any swerve module.
      */
     public void drive(double fwd, double str, double rcw, double gyroAngle) throws SwerveImplementationException {
         /**
-         * This default implementation has been tested using MK2 modules and works really well for both
-         * the internal encoders and the analog encoders.
+         * This default implementation has been tested using MK2 modules and works
+         * really well for both the internal encoders and the analog encoders.
          * 
          * Iterate over the modules.
          */
@@ -116,8 +124,8 @@ public abstract class SwerveDrive extends Subsystem {
                 /* Calculate the distance between the current position and the pivot target. */
                 double distance = (targetPos - (currentPos % countsPerPivotRevolution));
                 /*
-                 * If the distance between the target and the current position is longer than half a 
-                 * revolution, pivot the other way for efficiency. 
+                 * If the distance between the target and the current position is longer than
+                 * half a revolution, pivot the other way for efficiency.
                  */
                 if (distance > (countsPerPivotRevolution / 2.0) || distance < -(countsPerPivotRevolution / 2.0)) {
                     distance = countsPerPivotRevolution - Math.abs(distance);
@@ -134,15 +142,15 @@ public abstract class SwerveDrive extends Subsystem {
 
     /**
      * Drive in robot-centric navigation mode.
+     * 
      * @param fwd The Y value
      * @param str The X value
      * @param rcw The Z value
      */
     public void drive(double fwd, double str, double rcw) {
         /*
-         * Sending a gyro angle of 0 all the time forces the
-         * bot to always think it is going forward, thus putting
-         * it into an effective bot-centric drive mode.
+         * Sending a gyro angle of 0 all the time forces the bot to always think it is
+         * going forward, thus putting it into an effective bot-centric drive mode.
          */
         drive(fwd, str, rcw, 0);
     }
@@ -166,13 +174,13 @@ public abstract class SwerveDrive extends Subsystem {
     }
 
     /**
-     * Calls the reset function on all the modules, stopping each
-     * module and resetting all the encoders
+     * Calls the reset function on all the modules, stopping each module and
+     * resetting all the encoders
      */
     public void reset() {
         for (AbstractSwerveModule module : moduleMap.values()) {
             module.reset();
         }
     }
-    
+
 }
