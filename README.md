@@ -24,11 +24,13 @@ sourceControl {
 Then, add the dependency in `build.gradle`:
 
 ```groovy
-compile('net.bancino.robotics:SwerveIO') {
-        version {
-            branch = 'master'
-        }
+dependencies {
+  compile('net.bancino.robotics:SwerveIO') {
+    version {
+        branch = 'master'
     }
+  }
+}
 ```
 This is, of course, temporary, and should only be used for developement. When we start the 2020 season, we should hopefully have this published so you can use it as a normal binary dependency.
 
