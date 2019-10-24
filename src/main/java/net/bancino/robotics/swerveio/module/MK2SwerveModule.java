@@ -9,9 +9,10 @@ import net.bancino.robotics.swerveio.SwerveImplementationException;
 import net.bancino.robotics.swerveio.pid.MiniPID;
 
 /**
- * A swerve module implementation that uses RevRobotics Neo
- * motors and Spark Max motor controllers. This was designed for
- * Swerve Drive Specialties' MK2 Module.
+ * A swerve module implementation that uses RevRobotics Neo motors and Spark Max
+ * motor controllers. This was designed for Swerve Drive Specialties' MK2
+ * Module.
+ * 
  * @author Jordan Bancino
  */
 public class MK2SwerveModule implements MultiEncoderModule {
@@ -23,16 +24,15 @@ public class MK2SwerveModule implements MultiEncoderModule {
     private EncoderSetting useEncoder = EncoderSetting.ANALOG;
 
     /**
-     * The swerve module is constructed to allow the pivot motor
-     * to coast, this allows for adjustments, but as soon as the
-     * module is driven, it switches to brake mode to prevent
-     * outside modifications.
+     * The swerve module is constructed to allow the pivot motor to coast, this
+     * allows for adjustments, but as soon as the module is driven, it switches to
+     * brake mode to prevent outside modifications.
      */
     private boolean setPivotIdleMode = false;
 
     /**
-     * Create a new swerve module composed of Neo brushless
-     * motors, this uses spark max motor controllers.
+     * Create a new swerve module composed of Neo brushless motors, this uses spark
+     * max motor controllers.
      */
     public MK2SwerveModule(int driveCanId, int pivotCanId, int analogEncoderChannel) {
         driveMotor = new CANSparkMax(driveCanId, MotorType.kBrushless);
@@ -48,7 +48,6 @@ public class MK2SwerveModule implements MultiEncoderModule {
     @Override
     public void setPivotMotorSpeed(double speed) {
         if (!setPivotIdleMode) {
-            zeroPivotEncoder();
             pivotMotor.setIdleMode(IdleMode.kBrake);
             setPivotIdleMode = true;
         }
@@ -73,13 +72,13 @@ public class MK2SwerveModule implements MultiEncoderModule {
     @Override
     public double getPivotMotorEncoder() {
         switch (useEncoder) {
-            case ANALOG:
-                /* Scale the encoder voltage to go from 0 -> 5 volts to 0 -> 360 degrees */
-                return (360 / 5) * (pivotEncoder.getVoltage() - analogEncoderOffset);
-            case INTERNAL:
-                return pivotMotor.getEncoder().getPosition();
-            default:
-                return 0;
+        case ANALOG:
+            /* Scale the encoder voltage to go from 0 -> 5 volts to 0 -> 360 degrees */
+            return (360 / 5) * (pivotEncoder.getVoltage() - analogEncoderOffset);
+        case INTERNAL:
+            return pivotMotor.getEncoder().getPosition();
+        default:
+            return 0;
         }
     }
 
@@ -92,7 +91,7 @@ public class MK2SwerveModule implements MultiEncoderModule {
     public void zeroPivotEncoder() {
         analogEncoderOffset = pivotEncoder.getVoltage();
         pivotMotor.getEncoder().setPosition(0);
-        
+
     }
 
     @Override
