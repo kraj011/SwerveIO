@@ -34,8 +34,8 @@ dependencies {
     compile 'com.revrobotics.frc:SparkMax-java:+'
 
     /* Use JUnit Jupiter API for testing. */
-    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.4.2'
-    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.4.2'
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:+'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:+'
 }
 
 test {
