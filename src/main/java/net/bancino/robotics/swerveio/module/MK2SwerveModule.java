@@ -34,6 +34,11 @@ public class MK2SwerveModule implements MultiEncoderModule {
     /**
      * Create a new swerve module composed of Neo brushless motors, this uses spark
      * max motor controllers.
+     * 
+     * @param driveCanId           The CAN ID of the drive motor for this module.
+     * @param pivotCanId           The CAN ID of the pivot motor for this module.
+     * @param analogEncoderChannel The channel on the roboRIO where the analog
+     *                             encoder for this module is plugged into.
      */
     public MK2SwerveModule(int driveCanId, int pivotCanId, int analogEncoderChannel) {
         driveMotor = new CANSparkMax(driveCanId, MotorType.kBrushless);
