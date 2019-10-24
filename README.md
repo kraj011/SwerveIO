@@ -36,7 +36,7 @@ dependencies {
 }
 ```
 
-If you are using the Gradle Wrapper and your IDE does not download the dependencies automatically, you may need to run the command `./gradlew build` inside the project directory.
+If you are using the Gradle Wrapper and your IDE does not download the dependencies automatically, you may need to run the command `./gradlew build` inside the project directory. Otherwise, run `gradle build`. You may need to refresh your IDE or reload the build/classpath configuration.
 
 This is, of course, temporary, and should only be used for developement. When we start the 2020 season, we should hopefully have this published so you can use it as a normal binary dependency.
 
