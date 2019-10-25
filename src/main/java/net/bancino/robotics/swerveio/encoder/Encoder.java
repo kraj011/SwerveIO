@@ -1,4 +1,4 @@
-package net.bancino.robotics.swerveio.module;
+package net.bancino.robotics.swerveio.encoder;
 
 import net.bancino.robotics.swerveio.SwerveImplementationException;
 
