@@ -24,9 +24,11 @@ public abstract class GenericSwerveModule implements AbstractSwerveModule {
      * 
      * @param driveMotor   The drive motor controller.
      * @param pivotMotor   The pivot motor controller.
+     * @param driveEncoder The drive encoder.
      * @param pivotEncoder The pivot encoder.
      */
-    public GenericSwerveModule(SpeedController driveMotor, SpeedController pivotMotor, Encoder driveEncoder, Encoder pivotEncoder) {
+    public GenericSwerveModule(SpeedController driveMotor, SpeedController pivotMotor, Encoder driveEncoder,
+            Encoder pivotEncoder) {
         if (driveMotor == null) {
             throw new IllegalArgumentException("Drive motor must not be null.");
         } else if (driveEncoder == null) {
@@ -43,7 +45,7 @@ public abstract class GenericSwerveModule implements AbstractSwerveModule {
         }
     }
 
-    /** 
+    /**
      * @return The drive motor controller that this class was instantiated with.
      */
     protected SpeedController getDriveMotor() {
@@ -64,7 +66,7 @@ public abstract class GenericSwerveModule implements AbstractSwerveModule {
         return pivotEncoder;
     }
 
-    /** 
+    /**
      * @return the drive encoder that this class was instantiated with.
      */
     protected Encoder getDriveEncoder() {

@@ -38,14 +38,13 @@ public class MK2SwerveModule extends GenericSwerveModule implements MultiEncoder
      * Create a new swerve module composed of Neo brushless motors, this uses spark
      * max motor controllers.
      * 
-     * @param driveCanId           The CAN ID of the drive motor for this module.
-     * @param pivotCanId           The CAN ID of the pivot motor for this module.
-     * @param analogEncoderChannel The channel on the roboRIO where the analog
-     *                             encoder for this module is plugged into.
+     * @param driveCanId The CAN ID of the drive motor for this module.
+     * @param pivotCanId The CAN ID of the pivot motor for this module.
+     * @param encoder    The encoder to use as the pivot encoder.
      */
     public MK2SwerveModule(int driveCanId, int pivotCanId, MK2Encoder encoder) {
-        super(new CANSparkMax(driveCanId, MotorType.kBrushless), new CANSparkMax(pivotCanId, MotorType.kBrushless), new SparkMaxEncoder(),
-                encoder);
+        super(new CANSparkMax(driveCanId, MotorType.kBrushless), new CANSparkMax(pivotCanId, MotorType.kBrushless),
+                new SparkMaxEncoder(), encoder);
         driveMotor = (CANSparkMax) getDriveMotor();
         driveEncoder = getDriveEncoder();
         ((SparkMaxEncoder) driveEncoder).setController(driveMotor);
@@ -57,6 +56,15 @@ public class MK2SwerveModule extends GenericSwerveModule implements MultiEncoder
         setPivotPidOutputLimits(-1, 1);
     }
 
+    /**
+     * Create a new swerve module composed of Neo brushless motors, this uses spark
+     * max motor controllers.
+     * 
+     * @param driveCanId        The CAN ID of the drive motor for this module.
+     * @param pivotCanId        The CAN ID of the pivot motor for this module.
+     * @param analogEncoderPort The port on the roboRIO that the encoder to use as
+     *                          the pivot encoder is on.
+     */
     public MK2SwerveModule(int driveCanId, int pivotCanId, int analogEncoderPort) {
         this(driveCanId, pivotCanId, new MK2Encoder(analogEncoderPort));
     }
@@ -81,8 +89,6 @@ public class MK2SwerveModule extends GenericSwerveModule implements MultiEncoder
             return 0;
         }
     }
-
-   
 
     @Override
     public void setDriveReference(double ref) {
@@ -143,7 +149,6 @@ public class MK2SwerveModule extends GenericSwerveModule implements MultiEncoder
     @Override
     public void setEncoder(EncoderSetting encoder) {
         useEncoder = encoder;
-
     }
 
     @Override
@@ -154,6 +159,5 @@ public class MK2SwerveModule extends GenericSwerveModule implements MultiEncoder
     @Override
     public void setDrivePidOutputLimits(double min, double max) {
         drivePid.setOutputRange(min, max);
-
     }
 }
