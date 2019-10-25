@@ -4,6 +4,7 @@ import java.util.HashMap;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
 import net.bancino.robotics.swerveio.module.AbstractSwerveModule;
+import net.bancino.robotics.swerveio.function.ModuleModifier;
 
 /**
  * A class designed to be extended extended and used as a WPILib subsystem. This
