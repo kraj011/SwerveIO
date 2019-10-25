@@ -5,12 +5,27 @@ import net.bancino.robotics.swerveio.SwerveImplementationException;
 import net.bancino.robotics.swerveio.encoder.Encoder;
 import net.bancino.robotics.swerveio.pid.MiniPID;
 
+/**
+ * A generic swerve module class that provides every single function that can
+ * possibly be implemented using only two speed controllers and a pivot encoder.
+ * If you wish to implement your own module, it is often easier to extend this
+ * class instead of implementing AbstractSwerveModule directly.
+ * 
+ * @author Jordan Bancino
+ */
 public abstract class GenericSwerveModule implements AbstractSwerveModule {
 
     private SpeedController driveMotor, pivotMotor;
     private Encoder pivotEncoder;
     private MiniPID pivotPid = new MiniPID(0, 0, 0);
 
+    /**
+     * Construct a generic swerve module.
+     * 
+     * @param driveMotor   The drive motor controller.
+     * @param pivotMotor   The pivot motor controller.
+     * @param pivotEncoder The pivot encoder.
+     */
     public GenericSwerveModule(SpeedController driveMotor, SpeedController pivotMotor, Encoder pivotEncoder) {
         if (driveMotor == null) {
             throw new IllegalArgumentException("Drive motor must not be null.");
@@ -30,6 +45,7 @@ public abstract class GenericSwerveModule implements AbstractSwerveModule {
         pivotMotor.set(speed);
 
     }
+
     @Override
     public void setDriveMotorSpeed(double speed) {
         driveMotor.set(speed);
@@ -76,7 +92,6 @@ public abstract class GenericSwerveModule implements AbstractSwerveModule {
         pivotPid.setP(gain);
     }
 
-
     @Override
     public void setPivotPidI(double gain) {
         pivotPid.setI(gain);
@@ -95,5 +110,5 @@ public abstract class GenericSwerveModule implements AbstractSwerveModule {
     @Override
     public void setPivotPidFF(double gain) {
         pivotPid.setF(gain);
-    }    
+    }
 }
