@@ -16,7 +16,8 @@ public interface Encoder {
      * @return The encoder's current position. Note that this may not always be
      *         double precision, it could be an int or whatever. This should be a
      *         raw value straight from the hardware. If adjustments need to occour,
-     *         they should do so in the AbstractSwerveModule's encoder functions.
+     *         they can do so within reason here. Module-specific modifications
+     *         should occour in the swerve module's encoder-related functions.
      */
     public double get();
 
