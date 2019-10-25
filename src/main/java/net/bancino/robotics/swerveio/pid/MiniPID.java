@@ -7,9 +7,9 @@ package net.bancino.robotics.swerveio.pid;
  * MiniPID pid = new MiniPID(p,i,d); <br>
  * ...looping code...{ <br>
  * output= pid.getOutput(sensorvalue,target); <br>
- * }
- * 
- * @see http://brettbeauregard.com/blog/2011/04/improving-the-beginners-pid-direction/improving-the-beginners-pid-introduction
+ * } <br>
+ * See
+ * http://brettbeauregard.com/blog/2011/04/improving-the-beginners-pid-direction/improving-the-beginners-pid-introduction.
  */
 public class MiniPID {
 	// **********************************
@@ -114,7 +114,7 @@ public class MiniPID {
 	 * Affects output through <b>output+=previous_errors*Igain
 	 * ;previous_errors+=current_error</b>
 	 * 
-	 * @see {@link #setMaxIOutput(double) setMaxIOutput} for how to restrict
+	 * See {@link #setMaxIOutput(double) setMaxIOutput} for how to restrict
 	 *
 	 * @param i New gain value for the Integral term
 	 */
@@ -136,13 +136,15 @@ public class MiniPID {
 
 	/**
 	 * Changes the D parameter <br>
-	 * This has two primary effects: <list>
+	 * This has two primary effects:
+	 * <ol>
 	 * <li>Adds a "startup kick" and speeds up system response during setpoint
 	 * changes
-	 * <li>Adds "drag" and slows the system when moving toward the target </list> A
-	 * small D value can be useful for both improving response times, and preventing
-	 * overshoot. However, in many systems a large D value will cause significant
-	 * instability, particularly for large setpoint changes. <br>
+	 * <li>Adds "drag" and slows the system when moving toward the target
+	 * </ol>
+	 * A small D value can be useful for both improving response times, and
+	 * preventing overshoot. However, in many systems a large D value will cause
+	 * significant instability, particularly for large setpoint changes. <br>
 	 * Affects output through <b>output += -D*(current_input_value -
 	 * last_input_value)</b>
 	 *
@@ -232,7 +234,7 @@ public class MiniPID {
 	 * When one input is specified, output range is configured to <b>[-output,
 	 * output]</b>
 	 * 
-	 * @param output
+	 * @param output The output limit.
 	 */
 	public void setOutputLimits(double output) {
 		setOutputLimits(-output, output);
@@ -276,8 +278,8 @@ public class MiniPID {
 	 * This represents the target for the PID system's, such as a position,
 	 * velocity, or angle. <br>
 	 * 
-	 * @see MiniPID#getOutput(actual) <br>
-	 * @param setpoint
+	 * @see #getOutput(double) <br>
+	 * @param setpoint The setpoint to achieve.
 	 */
 	public void setSetpoint(double setpoint) {
 		this.setpoint = setpoint;
@@ -399,9 +401,8 @@ public class MiniPID {
 	 * Calculate the output value for the current PID cycle.<br>
 	 * In one parameter mode, the last configured setpoint will be used.<br>
 	 * 
-	 * @see MiniPID#setSetpoint()
+	 * @see #setSetpoint(double)
 	 * @param actual   The monitored value, typically as a sensor input.
-	 * @param setpoint The target value for the system
 	 * @return calculated output value for driving the system
 	 */
 	public double getOutput(double actual) {
@@ -462,7 +463,7 @@ public class MiniPID {
 	 * 
 	 * algorithm.
 	 * 
-	 * @param output valid between [0..1), meaning [current output only.. historical
+	 * @param strength valid between [0..1), meaning [current output only.. historical
 	 *               output only)
 	 */
 	public void setOutputFilter(double strength) {

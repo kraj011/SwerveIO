@@ -91,7 +91,7 @@ public class DriveTrain extends SwerveDrive {
 
 This creates all the modules and passes them to the superclass, which has a default implementation of the `drive()` function responsible for handing everything. To drive this swerve drive, just pass the joysticks Y, X and Z values in for `drive()`s FWD, STR, and RCW parameters respectively. This is of course very bare-bones, but this will get the job done. Optionally pass a gyro angle in as the fourth parameter for field centric navigation. See how to do all of this in the next code block below.
 
-If your swerve module does not have a default implementation, just write one that implements the `AbstractSwerveModule` interface. See the `MK2SwerveModule` class for inspiration.
+If your swerve module does not have a default implementation, just write one that extends the `GenericSwerveModule` class. This will be the most basic way to do it, but advanced programmers may want to directly implement `AbstractSwerveModule`. See the `MK2SwerveModule` class for inspiration.
 
 As you can see, to create a fully functioning swerve drive subsystem, you just need to extend the `SwerveDrive` class, and know these values:
 

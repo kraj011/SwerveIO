@@ -1,4 +1,4 @@
-package net.bancino.robotics.swerveio;
+package net.bancino.robotics.swerveio.function;
 
 import net.bancino.robotics.swerveio.module.AbstractSwerveModule;
 
