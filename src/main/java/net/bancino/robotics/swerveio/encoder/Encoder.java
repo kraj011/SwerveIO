@@ -4,7 +4,9 @@ import net.bancino.robotics.swerveio.SwerveImplementationException;
 
 /**
  * A representation of an encoder. This can be used in swerve module
- * implementations.
+ * implementations. This interface is generally very easy to implement and
+ * implementations often require very little code, it is simply a wrapper for
+ * the position functions on the encoder.
  * 
  * @author Jordan Bancino
  */

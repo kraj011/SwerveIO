@@ -16,7 +16,7 @@ import net.bancino.robotics.swerveio.pid.MiniPID;
 public abstract class GenericSwerveModule implements AbstractSwerveModule {
 
     private SpeedController driveMotor, pivotMotor;
-    private Encoder pivotEncoder;
+    private Encoder pivotEncoder, driveEncoder;
     private MiniPID pivotPid = new MiniPID(0, 0, 0);
 
     /**
@@ -24,11 +24,15 @@ public abstract class GenericSwerveModule implements AbstractSwerveModule {
      * 
      * @param driveMotor   The drive motor controller.
      * @param pivotMotor   The pivot motor controller.
+     * @param driveEncoder The drive encoder.
      * @param pivotEncoder The pivot encoder.
      */
-    public GenericSwerveModule(SpeedController driveMotor, SpeedController pivotMotor, Encoder pivotEncoder) {
+    public GenericSwerveModule(SpeedController driveMotor, SpeedController pivotMotor, Encoder driveEncoder,
+            Encoder pivotEncoder) {
         if (driveMotor == null) {
             throw new IllegalArgumentException("Drive motor must not be null.");
+        } else if (driveEncoder == null) {
+            throw new IllegalArgumentException("Drive encoder must not be null.");
         } else if (pivotMotor == null) {
             throw new IllegalArgumentException("Pivot motor must not be null.");
         } else if (pivotEncoder == null) {
@@ -37,7 +41,36 @@ public abstract class GenericSwerveModule implements AbstractSwerveModule {
             this.driveMotor = driveMotor;
             this.pivotMotor = pivotMotor;
             this.pivotEncoder = pivotEncoder;
+            this.driveEncoder = driveEncoder;
         }
+    }
+
+    /**
+     * @return The drive motor controller that this class was instantiated with.
+     */
+    protected SpeedController getDriveMotor() {
+        return driveMotor;
+    }
+
+    /**
+     * @return The pivot motor controller that this class was instantiated with.
+     */
+    protected SpeedController getPivotMotor() {
+        return pivotMotor;
+    }
+
+    /**
+     * @return The pivot encoder that this class was instantiated with.
+     */
+    protected Encoder getPivotEncoder() {
+        return pivotEncoder;
+    }
+
+    /**
+     * @return the drive encoder that this class was instantiated with.
+     */
+    protected Encoder getDriveEncoder() {
+        return driveEncoder;
     }
 
     @Override
@@ -60,6 +93,16 @@ public abstract class GenericSwerveModule implements AbstractSwerveModule {
     @Override
     public double getDriveMotorSpeed() {
         return driveMotor.get();
+    }
+
+    @Override
+    public double getDriveMotorEncoder() {
+        return driveEncoder.get();
+    }
+
+    @Override
+    public void zeroDriveEncoder() {
+        driveEncoder.zero();
     }
 
     @Override
@@ -110,5 +153,10 @@ public abstract class GenericSwerveModule implements AbstractSwerveModule {
     @Override
     public void setPivotPidFF(double gain) {
         pivotPid.setF(gain);
+    }
+
+    @Override
+    public void setPivotPidOutputLimits(double min, double max) {
+        pivotPid.setOutputLimits(min, max);
     }
 }
