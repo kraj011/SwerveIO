@@ -36,7 +36,7 @@ dependencies {
 }
 ```
 
-If you are using the Gradle Wrapper and your IDE does not download the dependencies automatically, you may need to run the command `./gradlew build` inside the project directory.
+If you are using the Gradle Wrapper and your IDE does not download the dependencies automatically, you may need to run the command `./gradlew build` inside the project directory. Otherwise, run `gradle build`. You may need to refresh your IDE or reload the build/classpath configuration.
 
 This is, of course, temporary, and should only be used for developement. When we start the 2020 season, we should hopefully have this published so you can use it as a normal binary dependency.
 
@@ -91,7 +91,7 @@ public class DriveTrain extends SwerveDrive {
 
 This creates all the modules and passes them to the superclass, which has a default implementation of the `drive()` function responsible for handing everything. To drive this swerve drive, just pass the joysticks Y, X and Z values in for `drive()`s FWD, STR, and RCW parameters respectively. This is of course very bare-bones, but this will get the job done. Optionally pass a gyro angle in as the fourth parameter for field centric navigation. See how to do all of this in the next code block below.
 
-If your swerve module does not have a default implementation, just write one that implements the `AbstractSwerveModule` interface. See the `MK2SwerveModule` class for inspiration.
+If your swerve module does not have a default implementation, just write one that extends the `GenericSwerveModule` class. This will be the most basic way to do it, but advanced programmers may want to directly implement `AbstractSwerveModule`. See the `MK2SwerveModule` class for inspiration.
 
 As you can see, to create a fully functioning swerve drive subsystem, you just need to extend the `SwerveDrive` class, and know these values:
 

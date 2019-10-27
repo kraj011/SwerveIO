@@ -181,6 +181,22 @@ public interface AbstractSwerveModule {
     public void setDrivePidFF(double gain);
 
     /**
+     * Set the output limits of the pivot PID controller.
+     * 
+     * @param min The minimum value the PID should output.
+     * @param max The maximum value the PID should output.
+     */
+    public void setPivotPidOutputLimits(double min, double max);
+
+    /**
+     * Set the output limits of the drive PID controller.
+     * 
+     * @param min The minimum value the PID should output.
+     * @param max The maximum value the PID should output.
+     */
+    public void setDrivePidOutputLimits(double min, double max);
+
+    /**
      * Stop the entire module, this just calls the stop function for each motor.
      */
     public default void stop() {

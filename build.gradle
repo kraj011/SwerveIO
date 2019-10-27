@@ -24,18 +24,18 @@ dependencies {
      * WPILib is used for the SwerveDrive implementation,
      * and can also be used by swerve module implementations too.
      */
-    compile 'edu.wpi.first.wpilibj:wpilibj-java:2019.4.1'
+    compile 'edu.wpi.first.wpilibj:wpilibj-java:+'
     /*
      * Specific implementations can declare their dependencies
      * below.
      *
      * Spark Max is used to control NEO brushless motors.
      */
-    compile 'com.revrobotics.frc:SparkMax-java:1.4.1'
+    compile 'com.revrobotics.frc:SparkMax-java:+'
 
     /* Use JUnit Jupiter API for testing. */
-    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.4.2'
-    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.4.2'
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:+'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:+'
 }
 
 test {

@@ -4,6 +4,7 @@ import java.util.HashMap;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
 import net.bancino.robotics.swerveio.module.AbstractSwerveModule;
+import net.bancino.robotics.swerveio.function.ModuleModifier;
 
 /**
  * A class designed to be extended extended and used as a WPILib subsystem. This
@@ -31,6 +32,19 @@ public abstract class SwerveDrive extends Subsystem {
 
     /**
      * Create the swerve drive with the base dimensions and the modules.
+     * 
+     * @param baseWidth                The width of the swerve drive base. Used for
+     *                                 trig.
+     * @param baseLength               The length of the swerve drive base. Used for
+     *                                 trig.
+     * @param countsPerPivotRevolution The number of counts it takes to rotate the
+     *                                 module a full 360 degrees.
+     * @param frontLeftModule          The front left swerve module.
+     * @param frontRightModule         The front right swerve module.
+     * @param rearLeftModule           The rear left swerve module.
+     * @param rearRightModule          the rear right swerve module.
+     * @param modifier                  The modifier that will apply settings to each
+     *                                 passed module.
      */
     public SwerveDrive(double baseWidth, double baseLength, double countsPerPivotRevolution,
             AbstractSwerveModule frontLeftModule, AbstractSwerveModule frontRightModule,
@@ -79,9 +93,13 @@ public abstract class SwerveDrive extends Subsystem {
      * A compatibility constructor that allows a raw module map to be passed to the
      * Swerve Drive
      * 
-     * @param baseWidth  The width of the base
-     * @param baseLength The length of the base
-     * @param moduleMap  A raw module map
+     * @param baseWidth                The width of the base
+     * @param baseLength               The length of the base
+     * @param countsPerPivotRevolution The number of counts it takes to rotate the
+     *                                 module a full 360 degrees.
+     * @param moduleMap                A raw module map
+     * @param modifier                 The modifier that will apply settings to each
+     *                                 passed module.
      */
     public SwerveDrive(double baseWidth, double baseLength, double countsPerPivotRevolution,
             HashMap<SwerveModule, AbstractSwerveModule> moduleMap, ModuleModifier modifier) {
