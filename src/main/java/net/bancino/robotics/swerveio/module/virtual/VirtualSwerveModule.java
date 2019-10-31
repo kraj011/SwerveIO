@@ -17,77 +17,67 @@ import net.bancino.robotics.swerveio.pid.MiniPID;
  * @author David Krajewski
  */
 class VirtualSwerveModule implements AbstractSwerveModule {
-    private SpeedController driveMotor, pivotMotor;
-    private Encoder pivotEncoder;
-    private MiniPID pivotPid = new MiniPID(0, 0, 0);
 
-    public VirtualSwerveModule(SpeedController driveMotor, SpeedController pivotMotor, Encoder pivotEncoder) {
-        this.driveMotor = driveMotor;
-        this.pivotMotor = pivotMotor;
-        this.pivotEncoder = pivotEncoder;
+    private double driveEncoderValue, pivotEncoderValue;
+    private double driveMotorSpeed, pivotMotorSpeed;
+
+    public VirtualSwerveModule() {
+
     }
 
     @Override
     public void setPivotMotorSpeed(double speed) {
-        // TODO Auto-generated method stub
-        this.pivotMotor.set(speed);
+        this.pivotMotorSpeed = speed;
+
     }
 
     @Override
     public void setDriveMotorSpeed(double speed) {
-        // TODO Auto-generated method stub
-        this.driveMotor.set(speed);
+        this.driveMotorSpeed = speed;
 
     }
 
     @Override
     public double getPivotMotorSpeed() {
-        // TODO Auto-generated method stub
-        return this.pivotMotor.get();
+        return this.pivotMotorSpeed;
     }
 
     @Override
     public double getDriveMotorSpeed() {
-        // TODO Auto-generated method stub
-        return this.driveMotor.get();
+        return this.driveMotorSpeed;
     }
 
     @Override
     public double getPivotMotorEncoder() {
-        // TODO Auto-generated method stub
-        return 0;
+        return this.pivotEncoderValue;
+    }
+
+    @Override
+    public double getDriveMotorEncoder() {
+        return this.driveEncoderValue;
     }
 
     @Override
     public void zeroPivotEncoder() {
-        // TODO Auto-generated method stub
-        this.pivotEncoder.zero();
+        this.pivotEncoderValue = 0.0;
+
+    }
+
+    @Override
+    public void zeroDriveEncoder() {
+        this.driveEncoderValue = 0.0;
 
     }
 
     @Override
     public void stopPivotMotor() {
-        // TODO Auto-generated method stub
-        this.pivotMotor.stopMotor();
+        this.pivotMotorSpeed = 0.0;
 
     }
 
     @Override
     public void stopDriveMotor() {
-        // TODO Auto-generated method stub
-        this.driveMotor.stopMotor();
-
-    }
-
-    @Override
-    public double getDriveMotorEncoder() {
-        // TODO Auto-generated method stub
-        return 0;
-    }
-
-    @Override
-    public void zeroDriveEncoder() {
-        // TODO Auto-generated method stub
+        this.driveMotorSpeed = 0.0;
 
     }
 
